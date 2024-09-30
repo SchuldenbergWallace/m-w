@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miller & Wallace Investimenti - Soluzioni Finanziarie Innovative</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --light-bg: #ecf0f1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('/api/placeholder/1200/600') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .features, .performance, .testimonials {
+            padding: 4rem 0;
+        }
+        
+        .features, .testimonials {
+            background-color: var(--light-bg);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .chart-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+        
+        .testimonial-card h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">M&W Investimenti</div>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Servizi</a></li>
+                    <li><a href="#">Chi Siamo</a></li>
+                    <li><a href="#">Contatti</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Sblocca il Tuo Potenziale Finanziario</h1>
+                <p>Sperimenta una crescita senza precedenti con le nostre strategie d'investimento all'avanguardia</p>
+                <a href="#" class="btn">Inizia a Investire Ora</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">I Nostri Punti di Forza</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Rendimenti Elevati</h3>
+                    <p>I nostri algoritmi proprietari superano costantemente le medie di mercato, garantendo ai nostri clienti risultati eccezionali.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Team di Esperti</h3>
+                    <p>Guidati dai veterani del settore Michael Miller ed Eddie Wallace, il nostro team vanta decenni di esperienza combinata.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Investimenti Sicuri</h3>
+                    <p>Il tuo denaro è protetto da misure di sicurezza all'avanguardia, garantendo la massima tranquillità per i nostri investitori.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="performance">
+        <div class="container">
+            <h2 class="section-title">Le Nostre Performance</h2>
+            <div class="chart-container">
+                <canvas id="investmentChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Cosa Dicono i Nostri Clienti</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <img src="/api/placeholder/80/80" alt="Cliente 1">
+                    <h4>Marco Rossi</h4>
+                    <p>"Ho visto il mio portafoglio crescere del 40% in soli 6 mesi. Miller & Wallace hanno superato ogni mia aspettativa!"</p>
+                </div>
+                <div class="testimonial-card">
+                    <img src="/api/placeholder/80/80" alt="Cliente 2">
+                    <h4>Laura Bianchi</h4>
+                    <p>"Finalmente posso dormire sonni tranquilli sapendo che i miei risparmi sono in mani esperte. Grazie M&W Investimenti!"</p>
+                </div>
+                <div class="testimonial-card">
+                    <img src="/api/placeholder/80/80" alt="Cliente 3">
+                    <h4>Giovanni Verdi</h4>
+                    <p>"La loro strategia di investimento innovativa ha completamente trasformato la mia situazione finanziaria. Consiglio vivamente!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Miller & Wallace Investimenti. Tutti i diritti riservati.</p>
+            <p><small>Avvertenza: Gli investimenti comportano rischi. I risultati passati non garantiscono risultati futuri.</small></p>
+        </div>
+    </footer>
+
+    <script>
+        const ctx = document.getElementById('investmentChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'],
+                datasets: [{
+                    label: 'Crescita degli Investimenti',
+                    data: [1000, 1200, 1500, 1800, 2200, 2700, 3300, 4000, 4800, 5700, 6800, 8000],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Valore dell\'Investimento (€)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Mesi'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
