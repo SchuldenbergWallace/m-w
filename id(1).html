@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5L-IDCARDS</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Inter:wght@100&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;500;700&display=swap');
+        
+        body {
+            font-family: Inter, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+            text-align: center;
+            color: #fff;
+            background-color: #0f0f10;
+            margin: 0;
+            padding: 0;
+        }
+
+        #um-idcard {
+            width: 43vh;
+            height: auto;
+            border-radius: 1.3vh;
+            display: flex;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19);
+            flex-direction: column;
+            align-items: center;
+            text-transform: uppercase;
+            color: #000;
+            margin: 3vh auto;
+            background-color: rgb(235, 247, 253);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            font-size: 2vh;
+            font-weight: 500;
+            letter-spacing: 2px;
+            padding: .5vh;
+            border-bottom: 1px solid #0000001f;
+        }
+
+        .header img {
+            width: 3.5vh;
+            margin-left: -1.2vh;
+            margin-top: 1vh;
+        }
+
+        .header span {
+            margin: 0 .5vh;
+        }
+
+        .content {
+            display: flex;
+            width: 100%;
+        }
+
+        .icon {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #mugshot_display {
+            width: 10vh;
+            height: 10vh;
+            border-radius: .8vh;
+            border: .1vh solid rgba(0, 0, 0, .19);
+            object-fit: cover;
+            background-color: black;
+        }
+
+        .text {
+            flex: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding: 1.5vh;
+        }
+
+        .text ul {
+            width: 100%;
+        }
+
+        .text ul li {
+            display: flex;
+            justify-content: space-between;
+            list-style-type: none;
+            font-size: 1.2vh;
+            font-weight: 900;
+            border-bottom: .1vh solid rgba(0, 0, 0, .07);
+            padding: .3vh 0;
+        }
+
+        .text ul span.info {
+            font-size: 1vh;
+            font-weight: 800;
+            padding-left: 2vh;
+        }
+
+        .footer {
+            display: flex;
+            width: 100%;
+            padding: 5px;
+        }
+
+        .signature {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 4vh;
+            font-family: 'Alex Brush', cursive;
+            text-transform: capitalize;
+            font-weight: 700;
+            font-size: 1.5vh;
+        }
+
+        .flagsandimg img {
+            width: 16px;
+            height: 16px;
+            opacity: .8;
+        }
+
+        #smallmugshot_display {
+            filter: grayscale(1);
+            border-radius: 40px;
+            width: 16px;
+            height: 16px;
+            object-fit: cover;
+            background-color: black;
+        }
+
+        .flagsandimg {
+            flex: 1;
+            display: flex;
+            flex-direction: row-reverse;
+            margin-right: 2vh;
+            justify-content: revert;
+        }
+
+        #cropperContainer {
+            max-width: 300px;
+            margin: 20px auto;
+        }
+
+        #cropperImage {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>5L-IDCARDS (credits to alp1x for the base) </h1>
+    
+    <form id="id-card-form">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" value="Litto"><br>
+
+        <label for="cognome">Cognome:</label>
+        <input type="text" id="cognome" value="Litto"><br>
+
+        <label for="dob">Data di Nascita:</label>
+        <input type="text" id="dob" value="20.10.2024"><br>
+
+        <label for="sesso">Sesso:</label>
+        <input type="text" id="sesso" value="M"><br>
+
+        <label for="nazionalita">Nazionalità:</label>
+        <input type="text" id="nazionalita" value="LOS SANTOS"><br>
+
+        <label for="firma">Firma:</label>
+        <input type="text" id="firma" value="LittoLitto"><br>
+
+        <label for="mugshot">Carica foto:</label>
+        <input type="file" id="mugshot" accept="image/*"><br><br>
+
+        <div id="cropperContainer" style="display: none;">
+            <img id="cropperImage" src="">
+        </div>
+
+        <button type="button" id="cropButton" style="display: none;">Ritaglia Immagine</button>
+
+        <button type="button" onclick="updateCard()">Aggiorna Carta d'Identità</button>
+        <button type="button" onclick="downloadCard()">Scarica Carta d'Identità</button>
+        <button type="button" onclick="uploadToImgbb()">Carica su imgbb</button>
+        <button type="button" onclick="transformToPDA()">PDA</button>
+        <button type="button" onclick="transformToPAT()">PAT</button>
+        <button type="button" onclick="transformToCDI()">CDI</button>
+    </form>
+
+    <div id="um-idcard">
+        <div class="header">
+            <span id="lang_header">FIVE LIVES</span>
+            <span id="cardtype">CARTA D'IDENTITÀ</span>
+        </div>
+        <div class="content">
+            <div class="icon">
+                <img id="mugshot_display" src="" alt="Foto">
+            </div>
+            <div class="text">
+                <ul>
+                    <li><span>Cognome:</span> <span id="Cognome_display">Litto</span></li>
+                    <li><span>Nome:</span> <span id="Nome_display">Litto</span></li>
+                    <li><span>Data di Nascita:</span> <span id="Dob_display">20.10.2024</span></li>
+                    <li><span>Sesso:</span> <span id="Sesso_display">M</span></li>
+                    <li><span>Nazionalità:</span> <span id="Nazionalità_display">LOS SANTOS</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="signature" id="Firma_display">
+                LittoLitto
+            </div>
+            <div class="flagsandimg">
+                <img id="flag" src="32.png" alt="Bandiera">
+                <img id="smallmugshot_display" src="" alt="Piccola Foto">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cropper;
+
+        document.getElementById('mugshot').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('cropperImage').src = event.target.result;
+                    document.getElementById('cropperContainer').style.display = 'block';
+                    document.getElementById('cropButton').style.display = 'inline';
+                    
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+                    const image = document.getElementById('cropperImage');
+                    cropper = new Cropper(image, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        autoCropArea: 1,
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('cropButton').addEventListener('click', function() {
+            const canvas = cropper.getCroppedCanvas();
+            canvas.toBlob(blob => {
+                const img = document.getElementById('mugshot_display');
+                img.src = URL.createObjectURL(blob);
+                document.getElementById('smallmugshot_display').src = URL.createObjectURL(blob);
+                img.onload = () => {
+                    img.style.display = 'block';
+                    smallImg.style.display = 'block';
+                };
+                
+                removeBackground(blob); // Rimuovi lo sfondo
+            });
+        });
+
+        function removeBackground(imageBlob) {
+            const formData = new FormData();
+            formData.append("image_file", imageBlob);
+            formData.append("size", "auto");
+
+            fetch("https://api.remove.bg/v1.0/removebg", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-Api-Key": "s8R6a7ZZ8pxBwPtW9D69nvZM" // Sostituisci con la tua chiave API di Remove.bg
+                },
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const img = document.getElementById('mugshot_display');
+                img.src = URL.createObjectURL(blob);
+                img.onload = () => {
+                    img.style.display = 'block';
+                };
+            })
+            .catch(error => {
+                console.error('Error removing background:', error);
+            });
+        }
+
+        function updateCard() {
+            document.getElementById('Cognome_display').textContent = document.getElementById('cognome').value;
+            document.getElementById('Nome_display').textContent = document.getElementById('nome').value;
+            document.getElementById('Dob_display').textContent = document.getElementById('dob').value;
+            document.getElementById('Sesso_display').textContent = document.getElementById('sesso').value;
+            document.getElementById('Nazionalità_display').textContent = document.getElementById('nazionalita').value;
+            document.getElementById('Firma_display').textContent = document.getElementById('firma').value;
+        }
+
+       function downloadCard() {
+    html2canvas(document.querySelector("#um-idcard")).then(canvas => {
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL();
+        link.download = 'id-card.png';
+        link.click();
+    }).catch(error => {
+        console.error('Errore durante il download:', error);
+        alert('Errore durante il download. Controlla la console per maggiori dettagli.');
+    });
+}
+
+function uploadToImgbb() {
+    html2canvas(document.getElementById('um-idcard'), { scale: 2 }).then(function(canvas) {
+        canvas.toBlob(function(blob) {
+            const formData = new FormData();
+            formData.append('image', blob, 'carta_identita.png');
+
+            fetch('https://api.imgbb.com/1/upload?expiration=600&key=2970b606faf3351a85bd7467ab5efd5b', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Documento caricato con successo: ' + data.data.url);
+                    if (typeof sendToDiscord === 'function') {
+                        sendToDiscord(data.data.url);
+                    }
+                } else {
+                    alert('Errore nel caricamento del documento');
+                }
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+                alert('Errore nella richiesta. Controlla la console per maggiori dettagli.');
+            });
+        });
+    }).catch(error => {
+        console.error('Errore durante l\'upload:', error);
+        alert('Errore durante l\'upload. Controlla la console per maggiori dettagli.');
+    });
+}
+
+
+        function sendToDiscord(imageUrl) {
+            const webhookUrl = "https://discord.com/api/webhooks/1295289860437049384/N_emJZpUIIpxdIAEDWT9kancgcCgCTNsb8afMg8EupWCPR2gm5sfnmFVaK41BbNLbJyD";
+            const message = {
+                content: `Immagine caricata su imgbb: ${imageUrl}`,
+            };
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(message),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Messaggio inviato su Discord!');
+                } else {
+                    alert('Errore nell\'invio del messaggio su Discord.');
+                }
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+            });
+        }
+
+        function transformToPDA() {
+            document.getElementById('um-idcard').style.backgroundColor = '#c7ffe5';
+            document.getElementById('lang_header').textContent = 'FIVE LIVES';
+            document.getElementById('cardtype').textContent = 'PORTO D\'ARMI';
+        }
+        function transformToPAT() {
+            document.getElementById('um-idcard').style.backgroundColor = '#fbbbbb';
+            document.getElementById('lang_header').textContent = 'FIVE LIVES';
+            document.getElementById('cardtype').textContent = 'PATENTE DI GUIDA';
+        }
+        function transformToCDI() {
+            document.getElementById('um-idcard').style.backgroundColor = '#ebf3fb';
+            document.getElementById('lang_header').textContent = 'FIVE LIVES';
+            document.getElementById('cardtype').textContent = 'CARTA D\'IDENTITÀ';
+        }
+    </script>
+
+</body>
+</html>
+
